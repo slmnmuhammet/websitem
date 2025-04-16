@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<style>
+  .option {
+  background-color: #ffffff;
+  color: #000000; /* Yazı hep siyah */
+  padding: 10px;
+  margin: 5px 0;
+  border: 2px solid #ddd;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.option:hover {
+  background-color: #e6f7ff;
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0, 153, 255, 0.3);
+}
+
+.option.wrong {
+  background-color: #ffcccc !important;
+  border-color: #ff4d4d;
+  animation: shake 0.3s;
+  color: #000000 !important; /* Yazı siyah kalır */
+}
+
+.option.correct {
+  background-color: #ccffcc !important;
+  border-color: #33cc33;
+  animation: pop 0.3s;
+  color: #000000 !important; /* Yazı siyah kalır */
+}
+
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+</style>
+
+  <meta charset="UTF-8" />
+  <title>Fransızca Kelime Testi</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #C0C0C0;
+      color: #000;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fade-in { animation: fadeIn 0.6s ease-in-out; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container { display: flex; flex-direction: column; align-items: center; }
+
+    .word-box {
+      background-color: #fff;
+      color: #000;
+      padding: 25px 50px;
+      font-size: 36px;
+      margin-bottom: 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .sound-button {
+      margin-left: 10px;
+      cursor: pointer;
+      font-size: 28px;
+    }
+
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .option {
+      background-color: #fff;
+      color: #000;
+      padding: 18px 30px;
+      font-size: 20px;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .option.correct { background-color: #4CAF50; color: white; }
+    .option.wrong { background-color: #f44336; color: white; }
+    .option.disabled { pointer-events: none; opacity: 0.6; }
+
+    button {
+  padding: 14px 32px;
+  font-size: 18px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 14px 32px;
+  font-size: 18px;
+  background-color: #ffffff;
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+
+    <style>
+  .option {
+    background-color: #ffffff;
+    color: #000000; /* Yazı her zaman siyah */
+    padding: 10px;
+    margin: 5px 0;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .option:hover {
+    background-color: #e6f7ff;
+    transform: scale(1.03);
+    box-shadow: 0 4px 8px rgba(0, 153, 255, 0.3);
+  }
+
+  .option.wrong {
+    background-color: #ffcccc !important;
+    border-color: #ff4d4d;
+    animation: shake 0.3s;
+  }
+
+  .option.correct {
+    background-color: #ccffcc !important;
+    border-color: #33cc33;
+    animation: pop 0.3s;
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+
+  #newQuestionBtn {
+  display: none;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 28px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 8px rgba(0, 128, 0, 0.25);
+}
+
+#newQuestionBtn:hover {
+  transform: scale(1.08); /* Hafif büyüme */
+  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.4); /* Gölge efekti */
+}
+
+
+  @keyframes bounce {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-3px); }
+    100% { transform: translateY(0); }
+  }
+</style>
+
+
+<style>
+  #wordCountDisplay {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #cceeff, #99ddff);
+  box-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
+  animation: pulse 2s infinite ease-in-out;
+
+  /* Sayıyı ortala */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 14px;
+  color: #004466;
+
+  /* Hafif yukarı çek */
+  margin-top: -20px;
+}
+
+
+
+
+  @keyframes pulse {
+    0%   { transform: scale(1);   box-shadow: 0 0 8px rgba(0, 153, 255, 0.4); }
+    50%  { transform: scale(1.1); box-shadow: 0 0 15px rgba(0, 153, 255, 0.7); }
+    100% { transform: scale(1);   box-shadow: 0 0 8px rgba(0, 153, 255, 0.4); }
+  }
+</style>
+
+
+<div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
+  <select id="categorySelect" onchange="onCategoryChange()" style="padding: 10px; font-size: 16px; height: 40px;">
+    <option value="">Kategori Seçin</option>
+    <option value="fiil">Fiiller</option>
+    <option value="hayvan">Hayvanlar</option>
+    <option value="duygu">Duygular</option>
+    <option value="renk">Renkler</option>
+    <option value="sayi">Sayılar</option>
+    <option value="vucut">Vücut</option>
+    <option value="yiyecek">Yiyecek / İçecek</option>
+    <option value="canlı">Canlılar</option>
+    <option value="eşya">Eşyalar</option>
+    <option value="kişi">Kişiler</option>
+    <option value="soyut">Soyut Kavramlar</option>
+    <option value="olay">Olay / Durum</option>
+    <option value="sıfat">Sıfatlar</option>
+    <option value="zarf">Zarflar</option>
+    <option value="zamir">Zamirler</option>
+    <option value="belirteç">Belirteçler</option>
+    <option value="onay">Onay / Ret</option>
+    <option value="miktar">Miktar</option>
+    <option value="karşıtlık">Karşıtlıklar</option>
+    <option value="bağlaç">Bağlaçlar</option>
+    <option value="nesne">Nesneler</option>
+    <option value="özellik">Özellikler</option>
+    <option value="yer">Yerler</option>
+    <option value="zaman">Zaman</option>
+    <option value="ölçü">Ölçü Birimleri</option>
+    <option value="soru">Soru Kalıpları</option>
+  </select>
+
+  <div id="wordCountDisplay"></div>
+</div>
+
+
+
+
+
+  <!-- Fransızca kelime kutusu -->
+  <div class="word-box fade-in" id="wordBox">
+    <span id="frWord">...</span>
+    <span class="sound-button" onclick="playPronunciation(currentWord.fr)">🔊</span>
+  </div>
+
+  <!-- Şıklar -->
+  <div class="options fade-in" id="options"></div>
+
+  <!-- Yeni Soru Butonu -->
+  <button id="newQuestionBtn" onclick="newQuestion()">Yeni Soru</button>
+</div>
+
+<audio id="correctSound" src="correct.mp3"></audio>
+<audio id="wrongSound" src="wrong.mp3"></audio>
+<audio id="pronounceAudio"></audio>
+
+<script>
+const words = [
+  { fr: "manger", tr: "yemek yemek", cat: "fiil" },
+  { fr: "parler", tr: "konuşmak", cat: "fiil" },
+  { fr: "courir", tr: "koşmak", cat: "fiil" },
+  { fr: "chien", tr: "köpek", cat: "hayvan" },
+  { fr: "chat", tr: "kedi", cat: "hayvan" },
+  { fr: "oiseau", tr: "kuş", cat: "hayvan" },
+  { fr: "heureux", tr: "mutlu", cat: "duygu" },
+  { fr: "triste", tr: "üzgün", cat: "duygu" },
+  { fr: "colère", tr: "öfke", cat: "duygu" },
+  { fr: "rouge", tr: "kırmızı", cat: "renk" },
+  { fr: "bleu", tr: "mavi", cat: "renk" },
+  { fr: "vert", tr: "yeşil", cat: "renk" },
+  { fr: "la tête", tr: "baş", cat: "vucut" },
+  { fr: "le bras", tr: "kol", cat: "vucut" },
+  { fr: "la jambe", tr: "bacak", cat: "vucut" },
+  { fr: "pain", tr: "ekmek", cat: "yiyecek" },
+  { fr: "fromage", tr: "peynir", cat: "yiyecek" },
+  { fr: "eau", tr: "su", cat: "yiyecek" },
+{ fr: "être", tr: "olmak", cat: "fiil" },
+{ fr: "avoir", tr: "sahip olmak", cat: "fiil" },
+{ fr: "aller", tr: "gitmek", cat: "fiil" },
+{ fr: "faire", tr: "yapmak", cat: "fiil" },
+{ fr: "dire", tr: "söylemek", cat: "fiil" },
+{ fr: "pouvoir", tr: "yapabilmek", cat: "fiil" },
+{ fr: "vouloir", tr: "istemek", cat: "fiil" },
+{ fr: "savoir", tr: "bilmek", cat: "fiil" },
+{ fr: "voir", tr: "görmek", cat: "fiil" },
+{ fr: "venir", tr: "gelmek", cat: "fiil" },
+{ fr: "devoir", tr: "zorunda olmak", cat: "fiil" },
+{ fr: "prendre", tr: "almak", cat: "fiil" },
+{ fr: "donner", tr: "vermek", cat: "fiil" },
+{ fr: "parler", tr: "konuşmak", cat: "fiil" },
+{ fr: "trouver", tr: "bulmak", cat: "fiil" },
+{ fr: "penser", tr: "düşünmek", cat: "fiil" },
+{ fr: "aimer", tr: "sevmek", cat: "fiil" },
+{ fr: "regarder", tr: "izlemek", cat: "fiil" },
+{ fr: "laisser", tr: "bırakmak", cat: "fiil" },
+{ fr: "croire", tr: "inanmak", cat: "fiil" },
+{ fr: "vivre", tr: "yaşamak", cat: "fiil" },
+{ fr: "mettre", tr: "koymak", cat: "fiil" },
+{ fr: "passer", tr: "geçmek", cat: "fiil" },
+{ fr: "comprendre", tr: "anlamak", cat: "fiil" },
+{ fr: "attendre", tr: "beklemek", cat: "fiil" },
+{ fr: "tenir", tr: "tutmak", cat: "fiil" },
+{ fr: "répondre", tr: "cevaplamak", cat: "fiil" },
+{ fr: "devenir", tr: "olmak (bir şeye dönüşmek)", cat: "fiil" },
+{ fr: "sentir", tr: "hissetmek", cat: "fiil" },
+{ fr: "sortir", tr: "çıkmak", cat: "fiil" },
+{ fr: "arriver", tr: "varmak", cat: "fiil" },
+{ fr: "entendre", tr: "duymak", cat: "fiil" },
+{ fr: "rester", tr: "kalmak", cat: "fiil" },
+{ fr: "tomber", tr: "düşmek", cat: "fiil" },
+{ fr: "ouvrir", tr: "açmak", cat: "fiil" },
+{ fr: "suivre", tr: "takip etmek", cat: "fiil" },
+
+{ fr: "une bactérie", tr: "bir bakteri", cat: "canlı" },
+{ fr: "un bateau", tr: "bir tekne", cat: "eşya" },
+{ fr: "beau", tr: "güzel (erkek için)", cat: "sıfat" },
+{ fr: "belle", tr: "güzel (kadın için)", cat: "sıfat" },
+{ fr: "un bracelet", tr: "bir bilezik", cat: "eşya" },
+{ fr: "une blessure", tr: "bir yara", cat: "duygu" },
+{ fr: "un balcon", tr: "bir balkon", cat: "eşya" },
+{ fr: "une barbe", tr: "bir sakal", cat: "vucut" },
+{ fr: "un cactus", tr: "bir kaktüs", cat: "canlı" },
+{ fr: "un cadeau", tr: "bir hediye", cat: "eşya" },
+{ fr: "un cafard", tr: "bir hamam böceği", cat: "hayvan" },
+{ fr: "cacher", tr: "saklamak", cat: "fiil" },
+{ fr: "calculer", tr: "hesaplamak", cat: "fiil" },
+{ fr: "calmer", tr: "sakinleştirmek", cat: "fiil" },
+{ fr: "un canard", tr: "bir ördek", cat: "hayvan" },
+{ fr: "un duel", tr: "bir düello", cat: "olay" },
+{ fr: "une date", tr: "bir tarih", cat: "zaman" },
+{ fr: "un dictionnaire", tr: "bir sözlük", cat: "eşya" },
+{ fr: "le destin", tr: "kader", cat: "soyut" },
+{ fr: "difficile", tr: "zor", cat: "sıfat" },
+{ fr: "finir", tr: "bitirmek", cat: "fiil" },
+{ fr: "une femme", tr: "bir kadın", cat: "kişi" },
+{ fr: "payer", tr: "ödemek", cat: "fiil" },
+{ fr: "pleurer", tr: "ağlamak", cat: "fiil" },
+{ fr: "vaste", tr: "geniş", cat: "sıfat" },
+{ fr: "observer", tr: "gözlemlemek", cat: "fiil" },
+{ fr: "une image", tr: "bir resim", cat: "nesne" },
+{ fr: "un homme", tr: "bir adam", cat: "kişi" },
+{ fr: "la santé", tr: "sağlık", cat: "soyut" },
+
+{ fr: "apprendre", tr: "öğrenmek", cat: "fiil" },
+{ fr: "connaître", tr: "tanımak / bilmek", cat: "fiil" },
+{ fr: "mourir", tr: "ölmek", cat: "fiil" },
+{ fr: "naître", tr: "doğmak", cat: "fiil" },
+{ fr: "monter", tr: "çıkmak / binmek", cat: "fiil" },
+{ fr: "descendre", tr: "inmek", cat: "fiil" },
+{ fr: "rentrer", tr: "eve dönmek / içeri girmek", cat: "fiil" },
+{ fr: "commencer", tr: "başlamak", cat: "fiil" },
+{ fr: "chercher", tr: "aramak", cat: "fiil" },
+{ fr: "demander", tr: "sormak / istemek", cat: "fiil" },
+{ fr: "essayer", tr: "denemek", cat: "fiil" },
+{ fr: "permettre", tr: "izin vermek", cat: "fiil" },
+{ fr: "oublier", tr: "unutmak", cat: "fiil" },
+{ fr: "partir", tr: "ayrılmak / gitmek", cat: "fiil" },
+{ fr: "revenir", tr: "geri gelmek", cat: "fiil" },
+{ fr: "servir", tr: "hizmet etmek / işe yaramak", cat: "fiil" },
+{ fr: "travailler", tr: "çalışmak", cat: "fiil" },
+{ fr: "utiliser", tr: "kullanmak", cat: "fiil" },
+{ fr: "continuer", tr: "devam etmek", cat: "fiil" },
+{ fr: "accepter", tr: "kabul etmek", cat: "fiil" },
+{ fr: "décider", tr: "karar vermek", cat: "fiil" },
+{ fr: "rencontrer", tr: "karşılaşmak / tanışmak", cat: "fiil" },
+{ fr: "préparer", tr: "hazırlamak", cat: "fiil" },
+{ fr: "rappeler", tr: "hatırlatmak / geri aramak", cat: "fiil" },
+{ fr: "ajouter", tr: "eklemek", cat: "fiil" },
+{ fr: "choisir", tr: "seçmek", cat: "fiil" },
+{ fr: "expliquer", tr: "açıklamak", cat: "fiil" },
+{ fr: "offrir", tr: "sunmak / hediye etmek", cat: "fiil" },
+{ fr: "protéger", tr: "korumak", cat: "fiil" },
+{ fr: "remplir", tr: "doldurmak", cat: "fiil" },
+{ fr: "sauver", tr: "kurtarmak", cat: "fiil" },
+{ fr: "toucher", tr: "dokunmak", cat: "fiil" },
+{ fr: "tourner", tr: "dönmek / çevirmek", cat: "fiil" },
+{ fr: "verser", tr: "dökmek / yatırmak (para)", cat: "fiil" },
+{ fr: "visiter", tr: "ziyaret etmek", cat: "fiil" },
+{ fr: "voler", tr: "uçmak / çalmak", cat: "fiil" },
+{ fr: "vouloir dire", tr: "anlamına gelmek", cat: "fiil" },
+{ fr: "zapper", tr: "kanal değiştirmek / unutmak", cat: "fiil" },
+
+{ fr: "je", tr: "ben", cat: "zamir" },
+{ fr: "tu", tr: "sen", cat: "zamir" },
+{ fr: "il/elle", tr: "o (erkek/kadın)", cat: "zamir" },
+{ fr: "nous", tr: "biz", cat: "zamir" },
+{ fr: "vous", tr: "siz", cat: "zamir" },
+{ fr: "ils/elles", tr: "onlar (erkek/kadın)", cat: "zamir" },
+{ fr: "me", tr: "bana / beni", cat: "zamir" },
+{ fr: "te", tr: "sana / seni", cat: "zamir" },
+{ fr: "lui/elle", tr: "ona / onu", cat: "zamir" },
+{ fr: "leur", tr: "onlara / onları", cat: "zamir" },
+{ fr: "se", tr: "kendi", cat: "zamir" },
+{ fr: "y", tr: "orada / oraya", cat: "zamir" },
+{ fr: "en", tr: "-den / ondan (miktar, yer)", cat: "zamir" },
+{ fr: "le/la/les", tr: "onu / onları (nesne zamiri)", cat: "zamir" },
+{ fr: "un/une/des", tr: "bir / bazı", cat: "belirteç" },
+{ fr: "ce/cette/ces", tr: "bu / şu / bunlar", cat: "belirteç" },
+{ fr: "mon/ma/mes", tr: "benim", cat: "zamir" },
+{ fr: "ton/ta/tes", tr: "senin", cat: "zamir" },
+{ fr: "son/sa/ses", tr: "onun", cat: "zamir" },
+{ fr: "notre/nos", tr: "bizim", cat: "zamir" },
+{ fr: "votre/vos", tr: "sizin", cat: "zamir" },
+{ fr: "leur/leurs", tr: "onların", cat: "zamir" },
+{ fr: "quel/quelle/quels/quelles", tr: "hangi", cat: "belirteç" },
+
+{ fr: "oui", tr: "evet", cat: "onay" },
+{ fr: "non", tr: "hayır", cat: "onay" },
+{ fr: "bien", tr: "iyi", cat: "sıfat" },
+{ fr: "mal", tr: "kötü", cat: "sıfat" },
+{ fr: "très", tr: "çok", cat: "miktar" },
+{ fr: "peu", tr: "az", cat: "miktar" },
+{ fr: "beaucoup", tr: "çok (miktar)", cat: "miktar" },
+{ fr: "toujours", tr: "her zaman", cat: "zarf" },
+
+{ fr: "chaud", tr: "sıcak", cat: "sıfat" },
+{ fr: "froid", tr: "soğuk", cat: "sıfat" },
+{ fr: "rapide", tr: "hızlı", cat: "sıfat" },
+{ fr: "lent", tr: "yavaş", cat: "sıfat" },
+{ fr: "intéressant", tr: "ilginç", cat: "sıfat" },
+{ fr: "ennuyeux", tr: "sıkıcı", cat: "sıfat" },
+{ fr: "facile", tr: "kolay", cat: "sıfat" },
+{ fr: "difficile", tr: "zor", cat: "sıfat" },
+{ fr: "proche", tr: "yakın", cat: "sıfat" },
+{ fr: "loin", tr: "uzak", cat: "sıfat" },
+{ fr: "riche", tr: "zengin", cat: "sıfat" },
+{ fr: "pauvre", tr: "fakir", cat: "sıfat" },
+{ fr: "heureux", tr: "mutlu", cat: "duygu" },
+{ fr: "triste", tr: "üzgün", cat: "duygu" },
+{ fr: "important", tr: "önemli", cat: "sıfat" },
+{ fr: "inutile", tr: "gereksiz", cat: "sıfat" },
+{ fr: "fort", tr: "güçlü", cat: "sıfat" },
+{ fr: "faible", tr: "zayıf", cat: "sıfat" },
+{ fr: "léger", tr: "hafif", cat: "sıfat" },
+{ fr: "lourd", tr: "ağır", cat: "sıfat" },
+{ fr: "clair", tr: "açık (renk)", cat: "sıfat" },
+{ fr: "foncé", tr: "koyu (renk)", cat: "sıfat" },
+{ fr: "haut", tr: "yüksek", cat: "sıfat" },
+{ fr: "bas", tr: "alçak", cat: "sıfat" },
+{ fr: "vrai", tr: "doğru", cat: "sıfat" },
+{ fr: "faux", tr: "yanlış", cat: "sıfat" },
+{ fr: "sale", tr: "kirli", cat: "sıfat" },
+{ fr: "propre", tr: "temiz", cat: "sıfat" },
+{ fr: "jeune", tr: "genç", cat: "sıfat" },
+{ fr: "vieux", tr: "yaşlı", cat: "sıfat" },
+
+{ fr: "jamais", tr: "asla", cat: "zarf" },
+{ fr: "encore", tr: "yine / hâlâ", cat: "zarf" },
+{ fr: "déjà", tr: "zaten / daha önce", cat: "zarf" },
+{ fr: "maintenant", tr: "şimdi", cat: "zarf" },
+{ fr: "après", tr: "sonra", cat: "zarf" },
+{ fr: "avant", tr: "önce", cat: "zarf" },
+{ fr: "ici", tr: "burada", cat: "zarf" },
+{ fr: "là", tr: "orada", cat: "zarf" },
+{ fr: "partout", tr: "her yerde", cat: "zarf" },
+{ fr: "ensemble", tr: "birlikte", cat: "zarf" },
+{ fr: "seul", tr: "yalnız", cat: "sıfat" },
+{ fr: "vite", tr: "hızlıca", cat: "zarf" },
+{ fr: "lentement", tr: "yavaşça", cat: "zarf" },
+{ fr: "surtout", tr: "özellikle", cat: "zarf" },
+{ fr: "peut-être", tr: "belki", cat: "zarf" },
+{ fr: "vraiment", tr: "gerçekten", cat: "zarf" },
+{ fr: "finalement", tr: "sonunda", cat: "zarf" },
+{ fr: "alors", tr: "o halde / o zaman", cat: "bağlaç" },
+{ fr: "cependant", tr: "ancak", cat: "karşıtlık" },
+{ fr: "pourtant", tr: "yine de", cat: "karşıtlık" },
+{ fr: "tandis que", tr: "-iken", cat: "bağlaç" },
+{ fr: "quoique", tr: "-se de / -sa bile", cat: "bağlaç" },
+{ fr: "et", tr: "ve", cat: "bağlaç" },
+{ fr: "ou", tr: "veya", cat: "bağlaç" },
+{ fr: "mais", tr: "ama", cat: "bağlaç" },
+{ fr: "donc", tr: "bu yüzden", cat: "bağlaç" },
+{ fr: "car", tr: "çünkü", cat: "bağlaç" },
+{ fr: "parce que", tr: "çünkü", cat: "bağlaç" },
+{ fr: "si", tr: "eğer", cat: "bağlaç" },
+{ fr: "quand", tr: "ne zaman", cat: "bağlaç" },
+{ fr: "comme", tr: "gibi / çünkü", cat: "bağlaç" },
+{ fr: "où", tr: "nerede", cat: "bağlaç" },
+
+{ fr: "un enfant", tr: "bir çocuk", cat: "kişi" },
+{ fr: "le jour", tr: "gün", cat: "zaman" },
+{ fr: "la nuit", tr: "gece", cat: "zaman" },
+{ fr: "le temps", tr: "zaman / hava", cat: "zaman" },
+{ fr: "l'eau", tr: "su", cat: "nesne" },
+{ fr: "le feu", tr: "ateş", cat: "nesne" },
+{ fr: "la terre", tr: "toprak / dünya", cat: "nesne" },
+{ fr: "l'air", tr: "hava", cat: "nesne" },
+{ fr: "la maison", tr: "ev", cat: "eşya" },
+{ fr: "la voiture", tr: "araba", cat: "eşya" },
+{ fr: "le travail", tr: "iş", cat: "soyut" },
+{ fr: "l'amour", tr: "aşk", cat: "soyut" },
+{ fr: "la vie", tr: "hayat", cat: "soyut" },
+{ fr: "la mort", tr: "ölüm", cat: "soyut" },
+{ fr: "le monde", tr: "dünya", cat: "soyut" },
+{ fr: "le pays", tr: "ülke", cat: "soyut" },
+{ fr: "la ville", tr: "şehir", cat: "yer" },
+{ fr: "la rue", tr: "sokak", cat: "yer" },
+{ fr: "la famille", tr: "aile", cat: "kişi" },
+{ fr: "un ami", tr: "bir arkadaş", cat: "kişi" },
+{ fr: "l'argent", tr: "para", cat: "soyut" },
+{ fr: "le problème", tr: "sorun", cat: "soyut" },
+{ fr: "l'idée", tr: "fikir", cat: "soyut" },
+{ fr: "la chose", tr: "şey", cat: "nesne" },
+{ fr: "la fois", tr: "kez", cat: "zaman" },
+{ fr: "la partie", tr: "parça / bölüm", cat: "nesne" },
+{ fr: "le besoin", tr: "ihtiyaç", cat: "soyut" },
+{ fr: "l'envie", tr: "istek / arzu", cat: "soyut" },
+{ fr: "la peur", tr: "korku", cat: "duygu" },
+{ fr: "le plaisir", tr: "zevk", cat: "duygu" },
+{ fr: "la raison", tr: "sebep / akıl", cat: "soyut" },
+{ fr: "le côté", tr: "yan / taraf", cat: "yer" },
+{ fr: "la fin", tr: "son", cat: "zaman" },
+{ fr: "le début", tr: "başlangıç", cat: "zaman" },
+{ fr: "le milieu", tr: "orta / çevre", cat: "yer" },
+{ fr: "le nom", tr: "isim", cat: "soyut" },
+{ fr: "le mot", tr: "kelime", cat: "soyut" },
+{ fr: "la question", tr: "soru", cat: "soyut" },
+{ fr: "la réponse", tr: "cevap", cat: "soyut" },
+{ fr: "l'histoire", tr: "hikaye / tarih", cat: "soyut" },
+{ fr: "le livre", tr: "kitap", cat: "nesne" },
+{ fr: "la musique", tr: "müzik", cat: "nesne" },
+{ fr: "le film", tr: "film", cat: "nesne" },
+{ fr: "l'art", tr: "sanat", cat: "soyut" },
+{ fr: "le sport", tr: "spor", cat: "soyut" },
+{ fr: "le jeu", tr: "oyun", cat: "nesne" },
+{ fr: "la nourriture", tr: "yemek", cat: "yiyecek" },
+{ fr: "la boisson", tr: "içecek", cat: "yiyecek" },
+{ fr: "la maladie", tr: "hastalık", cat: "soyut" },
+{ fr: "le docteur", tr: "doktor", cat: "kişi" },
+{ fr: "l'école", tr: "okul", cat: "yer" },
+{ fr: "l'église", tr: "kilise", cat: "yer" },
+{ fr: "la guerre", tr: "savaş", cat: "olay" },
+{ fr: "la paix", tr: "barış", cat: "olay" },
+{ fr: "le droit", tr: "hak / hukuk", cat: "soyut" },
+{ fr: "le devoir", tr: "görev / ödev", cat: "soyut" },
+{ fr: "la loi", tr: "yasa", cat: "soyut" },
+{ fr: "le pouvoir", tr: "güç / iktidar", cat: "soyut" },
+{ fr: "la liberté", tr: "özgürlük", cat: "soyut" },
+{ fr: "la justice", tr: "adalet", cat: "soyut" },
+{ fr: "la vérité", tr: "gerçek", cat: "soyut" },
+{ fr: "le mensonge", tr: "yalan", cat: "soyut" },
+{ fr: "la beauté", tr: "güzellik", cat: "soyut" },
+{ fr: "le bonheur", tr: "mutluluk", cat: "duygu" },
+{ fr: "la tristesse", tr: "üzüntü", cat: "duygu" },
+{ fr: "la colère", tr: "öfke", cat: "duygu" },
+{ fr: "le rire", tr: "kahkaha", cat: "duygu" },
+{ fr: "le pleur", tr: "ağlama", cat: "duygu" },
+{ fr: "le silence", tr: "sessizlik", cat: "soyut" },
+{ fr: "le bruit", tr: "gürültü", cat: "soyut" },
+{ fr: "la lumière", tr: "ışık", cat: "özellik" },
+{ fr: "l'ombre", tr: "gölge", cat: "özellik" },
+{ fr: "la couleur", tr: "renk", cat: "özellik" },
+{ fr: "la forme", tr: "şekil", cat: "özellik" },
+{ fr: "la taille", tr: "boy / beden", cat: "özellik" },
+{ fr: "le poids", tr: "ağırlık", cat: "özellik" },
+{ fr: "le nombre", tr: "sayı", cat: "sayi" },
+{ fr: "la semaine", tr: "hafta", cat: "zaman" },
+{ fr: "le mois", tr: "ay", cat: "zaman" },
+{ fr: "l'année", tr: "yıl", cat: "zaman" },
+{ fr: "le siècle", tr: "yüzyıl", cat: "zaman" },
+{ fr: "la minute", tr: "dakika", cat: "zaman" },
+{ fr: "l'heure", tr: "saat", cat: "zaman" },
+{ fr: "triste", tr: "üzgün", cat: "duygu" },
+{ fr: "important", tr: "önemli", cat: "sıfat" },
+{ fr: "inutile", tr: "gereksiz", cat: "sıfat" },
+{ fr: "fort", tr: "güçlü", cat: "sıfat" },
+{ fr: "faible", tr: "zayıf", cat: "sıfat" },
+{ fr: "léger", tr: "hafif", cat: "sıfat" },
+{ fr: "lourd", tr: "ağır", cat: "sıfat" },
+{ fr: "clair", tr: "açık (renk)", cat: "sıfat" },
+{ fr: "foncé", tr: "koyu (renk)", cat: "sıfat" },
+{ fr: "haut", tr: "yüksek", cat: "sıfat" },
+{ fr: "bas", tr: "alçak", cat: "sıfat" },
+{ fr: "vrai", tr: "doğru", cat: "sıfat" },
+{ fr: "faux", tr: "yanlış", cat: "sıfat" },
+{ fr: "sale", tr: "kirli", cat: "sıfat" },
+{ fr: "propre", tr: "temiz", cat: "sıfat" },
+{ fr: "jeune", tr: "genç", cat: "sıfat" },
+{ fr: "vieux", tr: "yaşlı", cat: "sıfat" },
+
+{ fr: "jamais", tr: "asla", cat: "zarf" },
+{ fr: "encore", tr: "yine / hâlâ", cat: "zarf" },
+{ fr: "déjà", tr: "zaten / daha önce", cat: "zarf" },
+{ fr: "maintenant", tr: "şimdi", cat: "zaman" },
+{ fr: "après", tr: "sonra", cat: "zaman" },
+{ fr: "avant", tr: "önce", cat: "zaman" },
+{ fr: "ici", tr: "burada", cat: "zarf" },
+{ fr: "là", tr: "orada", cat: "zarf" },
+{ fr: "partout", tr: "her yerde", cat: "zarf" },
+{ fr: "ensemble", tr: "birlikte", cat: "zarf" },
+{ fr: "seul", tr: "yalnız", cat: "sıfat" },
+{ fr: "vite", tr: "hızlıca", cat: "zarf" },
+{ fr: "lentement", tr: "yavaşça", cat: "zarf" },
+{ fr: "surtout", tr: "özellikle", cat: "zarf" },
+{ fr: "peut-être", tr: "belki", cat: "zarf" },
+{ fr: "vraiment", tr: "gerçekten", cat: "zarf" },
+{ fr: "finalement", tr: "sonunda", cat: "zarf" },
+
+{ fr: "alors", tr: "o halde / o zaman", cat: "bağlaç" },
+{ fr: "cependant", tr: "ancak", cat: "karşıtlık" },
+{ fr: "pourtant", tr: "yine de", cat: "karşıtlık" },
+{ fr: "tandis que", tr: "-iken", cat: "bağlaç" },
+{ fr: "quoique", tr: "-se de / -sa bile", cat: "bağlaç" },
+{ fr: "et", tr: "ve", cat: "bağlaç" },
+{ fr: "ou", tr: "veya", cat: "bağlaç" },
+{ fr: "mais", tr: "ama", cat: "bağlaç" },
+{ fr: "donc", tr: "bu yüzden", cat: "bağlaç" },
+{ fr: "car", tr: "çünkü", cat: "bağlaç" },
+{ fr: "parce que", tr: "çünkü", cat: "bağlaç" },
+{ fr: "si", tr: "eğer", cat: "bağlaç" },
+{ fr: "quand", tr: "ne zaman", cat: "bağlaç" },
+{ fr: "comme", tr: "gibi / çünkü", cat: "bağlaç" },
+{ fr: "où", tr: "nerede", cat: "bağlaç" },
+
+{ fr: "un enfant", tr: "bir çocuk", cat: "kişi" },
+{ fr: "le jour", tr: "gün", cat: "zaman" },
+{ fr: "la nuit", tr: "gece", cat: "zaman" },
+{ fr: "le temps", tr: "zaman / hava", cat: "zaman" },
+{ fr: "l'eau", tr: "su", cat: "nesne" },
+{ fr: "le feu", tr: "ateş", cat: "nesne" },
+{ fr: "la terre", tr: "toprak / dünya", cat: "nesne" },
+{ fr: "l'air", tr: "hava", cat: "nesne" },
+{ fr: "la maison", tr: "ev", cat: "eşya" },
+{ fr: "la voiture", tr: "araba", cat: "eşya" },
+{ fr: "le travail", tr: "iş", cat: "soyut" },
+{ fr: "l'amour", tr: "aşk", cat: "duygu" },
+{ fr: "la vie", tr: "hayat", cat: "soyut" },
+{ fr: "la mort", tr: "ölüm", cat: "soyut" },
+{ fr: "le monde", tr: "dünya", cat: "soyut" },
+{ fr: "le pays", tr: "ülke", cat: "yer" },
+{ fr: "la ville", tr: "şehir", cat: "yer" },
+{ fr: "la rue", tr: "sokak", cat: "yer" },
+{ fr: "la famille", tr: "aile", cat: "kişi" },
+{ fr: "un ami", tr: "bir arkadaş", cat: "kişi" },
+{ fr: "l'argent", tr: "para", cat: "soyut" },
+{ fr: "le problème", tr: "sorun", cat: "soyut" },
+{ fr: "l'idée", tr: "fikir", cat: "soyut" },
+{ fr: "la chose", tr: "şey", cat: "nesne" },
+{ fr: "la fois", tr: "kez", cat: "zaman" },
+{ fr: "la partie", tr: "parça / bölüm", cat: "nesne" },
+{ fr: "le besoin", tr: "ihtiyaç", cat: "soyut" },
+{ fr: "l'envie", tr: "istek / arzu", cat: "duygu" },
+{ fr: "la peur", tr: "korku", cat: "duygu" },
+{ fr: "le plaisir", tr: "zevk", cat: "duygu" },
+{ fr: "la raison", tr: "sebep / akıl", cat: "soyut" },
+{ fr: "le côté", tr: "yan / taraf", cat: "yer" },
+{ fr: "la fin", tr: "son", cat: "zaman" },
+{ fr: "le début", tr: "başlangıç", cat: "zaman" },
+{ fr: "le milieu", tr: "orta / çevre", cat: "yer" },
+{ fr: "le nom", tr: "isim", cat: "soyut" },
+{ fr: "le mot", tr: "kelime", cat: "soyut" },
+{ fr: "la question", tr: "soru", cat: "soyut" },
+{ fr: "la réponse", tr: "cevap", cat: "soyut" },
+{ fr: "l'histoire", tr: "hikaye / tarih", cat: "soyut" },
+{ fr: "le livre", tr: "kitap", cat: "nesne" },
+{ fr: "la musique", tr: "müzik", cat: "nesne" },
+{ fr: "le film", tr: "film", cat: "nesne" },
+{ fr: "l'art", tr: "sanat", cat: "soyut" },
+{ fr: "le sport", tr: "spor", cat: "soyut" },
+{ fr: "le jeu", tr: "oyun", cat: "nesne" },
+{ fr: "la nourriture", tr: "yemek", cat: "yiyecek" },
+{ fr: "la boisson", tr: "içecek", cat: "yiyecek" },
+{ fr: "la maladie", tr: "hastalık", cat: "soyut" },
+{ fr: "le docteur", tr: "doktor", cat: "kişi" },
+{ fr: "l'école", tr: "okul", cat: "yer" },
+{ fr: "l'église", tr: "kilise", cat: "yer" },
+{ fr: "la guerre", tr: "savaş", cat: "olay" },
+{ fr: "la paix", tr: "barış", cat: "olay" },
+{ fr: "le droit", tr: "hak / hukuk", cat: "soyut" },
+{ fr: "le devoir", tr: "görev / ödev", cat: "soyut" },
+{ fr: "la loi", tr: "yasa", cat: "soyut" },
+{ fr: "le pouvoir", tr: "güç / iktidar", cat: "soyut" },
+{ fr: "la liberté", tr: "özgürlük", cat: "soyut" },
+{ fr: "la justice", tr: "adalet", cat: "soyut" },
+{ fr: "la vérité", tr: "gerçek", cat: "soyut" },
+{ fr: "le mensonge", tr: "yalan", cat: "soyut" },
+{ fr: "la beauté", tr: "güzellik", cat: "soyut" },
+{ fr: "le bonheur", tr: "mutluluk", cat: "duygu" },
+{ fr: "la tristesse", tr: "üzüntü", cat: "duygu" },
+{ fr: "la colère", tr: "öfke", cat: "duygu" },
+{ fr: "le rire", tr: "kahkaha", cat: "duygu" },
+{ fr: "le pleur", tr: "ağlama", cat: "duygu" },
+{ fr: "le silence", tr: "sessizlik", cat: "soyut" },
+{ fr: "le bruit", tr: "gürültü", cat: "soyut" },
+{ fr: "la lumière", tr: "ışık", cat: "özellik" },
+{ fr: "l'ombre", tr: "gölge", cat: "özellik" },
+{ fr: "la couleur", tr: "renk", cat: "özellik" },
+{ fr: "la forme", tr: "şekil", cat: "özellik" },
+{ fr: "la taille", tr: "boy / beden", cat: "özellik" },
+{ fr: "le poids", tr: "ağırlık", cat: "özellik" },
+{ fr: "la semaine", tr: "hafta", cat: "zaman" },
+{ fr: "le mois", tr: "ay", cat: "zaman" },
+{ fr: "l'année", tr: "yıl", cat: "zaman" },
+{ fr: "le siècle", tr: "yüzyıl", cat: "zaman" },
+{ fr: "la minute", tr: "dakika", cat: "zaman" },
+{ fr: "l'heure", tr: "saat", cat: "zaman" },
+{ fr: "le matin", tr: "sabah", cat: "zaman" },
+{ fr: "l'après-midi", tr: "öğleden sonra", cat: "zaman" },
+{ fr: "le soir", tr: "akşam", cat: "zaman" },
+{ fr: "le soleil", tr: "güneş", cat: "nesne" },
+{ fr: "la lune", tr: "ay", cat: "nesne" },
+{ fr: "l'étoile", tr: "yıldız", cat: "nesne" },
+{ fr: "le ciel", tr: "gökyüzü", cat: "nesne" },
+{ fr: "la mer", tr: "deniz", cat: "nesne" },
+{ fr: "la montagne", tr: "dağ", cat: "nesne" },
+{ fr: "la forêt", tr: "orman", cat: "nesne" },
+{ fr: "la fleur", tr: "çiçek", cat: "canlı" },
+{ fr: "l'arbre", tr: "ağaç", cat: "canlı" },
+{ fr: "l'animal", tr: "hayvan", cat: "hayvan" },
+{ fr: "l'oiseau", tr: "kuş", cat: "hayvan" },
+{ fr: "le poisson", tr: "balık", cat: "hayvan" },
+{ fr: "le chat", tr: "kedi", cat: "hayvan" },
+{ fr: "le chien", tr: "köpek", cat: "hayvan" },
+{ fr: "le cheval", tr: "at", cat: "hayvan" },
+{ fr: "la vache", tr: "inek", cat: "hayvan" },
+{ fr: "le mouton", tr: "koyun", cat: "hayvan" },
+{ fr: "le cochon", tr: "domuz", cat: "hayvan" },
+{ fr: "le poulet", tr: "tavuk", cat: "hayvan" },
+{ fr: "le serpent", tr: "yılan", cat: "hayvan" },
+{ fr: "l'araignée", tr: "örümcek", cat: "hayvan" },
+{ fr: "l'insecte", tr: "böcek", cat: "hayvan" },
+
+{ fr: "le fruit", tr: "meyve", cat: "yiyecek" },
+{ fr: "le légume", tr: "sebze", cat: "yiyecek" },
+{ fr: "le pain", tr: "ekmek", cat: "yiyecek" },
+{ fr: "le fromage", tr: "peynir", cat: "yiyecek" },
+{ fr: "la viande", tr: "et", cat: "yiyecek" },
+{ fr: "le sucre", tr: "şeker", cat: "yiyecek" },
+{ fr: "le sel", tr: "tuz", cat: "yiyecek" },
+{ fr: "le poivre", tr: "karabiber", cat: "yiyecek" },
+{ fr: "l'huile", tr: "yağ", cat: "yiyecek" },
+{ fr: "le vin", tr: "şarap", cat: "yiyecek" },
+{ fr: "la bière", tr: "bira", cat: "yiyecek" },
+{ fr: "le café", tr: "kahve", cat: "yiyecek" },
+{ fr: "le thé", tr: "çay", cat: "yiyecek" },
+
+{ fr: "bonjour", tr: "merhaba", cat: "onay" },
+{ fr: "au revoir", tr: "hoşça kal", cat: "onay" },
+{ fr: "merci", tr: "teşekkürler", cat: "onay" },
+{ fr: "s'il vous plaît", tr: "lütfen", cat: "onay" },
+{ fr: "excusez-moi", tr: "affedersiniz", cat: "onay" },
+{ fr: "comment ça va", tr: "nasılsın", cat: "onay" },
+{ fr: "ça va", tr: "iyiyim / idare eder", cat: "onay" },
+
+{ fr: "comment", tr: "nasıl", cat: "bağlaç" },
+{ fr: "pourquoi", tr: "neden", cat: "bağlaç" },
+{ fr: "avec", tr: "ile", cat: "bağlaç" },
+{ fr: "sans", tr: "-sız / olmadan", cat: "bağlaç" },
+{ fr: "là-bas", tr: "orası / orada", cat: "zarf" },
+{ fr: "souvent", tr: "sık sık", cat: "zarf" },
+{ fr: "quelquefois", tr: "bazen", cat: "zarf" },
+{ fr: "tout", tr: "her şey", cat: "zamir" },
+{ fr: "rien", tr: "hiçbir şey", cat: "zamir" },
+{ fr: "quelque chose", tr: "bir şey", cat: "zamir" },
+{ fr: "trop", tr: "çok fazla", cat: "miktar" },
+{ fr: "assez", tr: "yeterince", cat: "miktar" },
+{ fr: "bien sûr", tr: "tabii ki", cat: "onay" },
+{ fr: "d'accord", tr: "tamam", cat: "onay" },
+
+{ fr: "une bactérie", tr: "bir bakteri", cat: "canlı" },
+{ fr: "un bateau", tr: "bir tekne", cat: "eşya" },
+{ fr: "beau", tr: "güzel (erkek için)", cat: "sıfat" },
+{ fr: "belle", tr: "güzel (kadın için)", cat: "sıfat" },
+{ fr: "un bracelet", tr: "bir bilezik", cat: "eşya" },
+{ fr: "une blessure", tr: "bir yara", cat: "duygu" },
+{ fr: "un balcon", tr: "bir balkon", cat: "eşya" },
+{ fr: "une barbe", tr: "bir sakal", cat: "vucut" },
+{ fr: "un cactus", tr: "bir kaktüs", cat: "canlı" },
+{ fr: "un cadeau", tr: "bir hediye", cat: "eşya" },
+{ fr: "un cafard", tr: "bir hamam böceği", cat: "hayvan" },
+
+{ fr: "cacher", tr: "saklamak", cat: "fiil" },
+{ fr: "calculer", tr: "hesaplamak", cat: "fiil" },
+{ fr: "calmer", tr: "sakinleştirmek", cat: "fiil" },
+{ fr: "un canard", tr: "bir ördek", cat: "hayvan" },
+{ fr: "un duel", tr: "bir düello", cat: "olay" },
+{ fr: "une date", tr: "bir tarih", cat: "zaman" },
+{ fr: "un dictionnaire", tr: "bir sözlük", cat: "nesne" },
+{ fr: "le destin", tr: "kader", cat: "soyut" },
+{ fr: "difficile", tr: "zor", cat: "sıfat" },
+
+{ fr: "un escalier", tr: "bir merdiven", cat: "eşya" },
+{ fr: "essayer", tr: "denemek", cat: "fiil" },
+{ fr: "étrange", tr: "garip", cat: "sıfat" },
+{ fr: "un étranger", tr: "bir yabancı", cat: "kişi" },
+{ fr: "une étoile", tr: "bir yıldız", cat: "nesne" },
+{ fr: "exporter", tr: "ihraç etmek", cat: "fiil" },
+{ fr: "envoyer", tr: "göndermek", cat: "fiil" },
+
+{ fr: "une famille", tr: "bir aile", cat: "kişi" },
+{ fr: "la faim", tr: "açlık", cat: "duygu" },
+{ fr: "une fille", tr: "bir kız", cat: "kişi" },
+{ fr: "une fourmi", tr: "bir karınca", cat: "hayvan" },
+{ fr: "facile", tr: "kolay", cat: "sıfat" },
+{ fr: "fermer", tr: "kapatmak", cat: "fiil" },
+{ fr: "faire", tr: "yapmak", cat: "fiil" },
+{ fr: "finir", tr: "bitirmek", cat: "fiil" },
+{ fr: "une femme", tr: "bir kadın", cat: "kişi" },
+{ fr: "un géant", tr: "bir dev", cat: "kişi" },
+{ fr: "généreux", tr: "cömert", cat: "sıfat" },
+{ fr: "une garantie", tr: "bir garanti", cat: "soyut" },
+{ fr: "une gomme", tr: "bir silgi", cat: "nesne" },
+{ fr: "gagner", tr: "kazanmak", cat: "fiil" },
+{ fr: "un hasard", tr: "bir rastlantı", cat: "soyut" },
+{ fr: "une habitude", tr: "bir alışkanlık", cat: "soyut" },
+{ fr: "un homme", tr: "bir adam", cat: "kişi" },
+{ fr: "un haricot", tr: "bir fasulye", cat: "yiyecek" },
+{ fr: "humide", tr: "nemli", cat: "sıfat" },
+{ fr: "une idée", tr: "bir fikir", cat: "soyut" },
+{ fr: "une identité", tr: "bir kimlik", cat: "soyut" },
+{ fr: "un idéal", tr: "bir ideal", cat: "soyut" },
+{ fr: "imaginer", tr: "hayal etmek", cat: "fiil" },
+{ fr: "une image", tr: "bir resim", cat: "nesne" },
+{ fr: "jeudi", tr: "perşembe", cat: "zaman" },
+{ fr: "une jeu", tr: "bir oyun", cat: "nesne" },
+{ fr: "jeune", tr: "genç", cat: "sıfat" },
+{ fr: "un journaliste", tr: "bir gazeteci", cat: "kişi" },
+{ fr: "jeter", tr: "atmak", cat: "fiil" },
+{ fr: "jolie", tr: "güzel", cat: "sıfat" },
+{ fr: "un jouet", tr: "bir oyuncak", cat: "nesne" },
+{ fr: "kilomètre", tr: "kilometre", cat: "ölçü" },
+{ fr: "un koala", tr: "bir koala", cat: "hayvan" },
+{ fr: "un kiwi", tr: "bir kivi", cat: "yiyecek" },
+{ fr: "un kangourou", tr: "bir kanguru", cat: "hayvan" },
+{ fr: "kidnapper", tr: "kaçırmak", cat: "fiil" },
+{ fr: "le lait", tr: "süt", cat: "yiyecek" },
+{ fr: "une larme", tr: "bir gözyaşı", cat: "duygu" },
+{ fr: "laver", tr: "yıkamak", cat: "fiil" },
+{ fr: "une lettre", tr: "bir mektup", cat: "nesne" },
+{ fr: "une lampe", tr: "bir lamba", cat: "eşya" },
+{ fr: "lire", tr: "okumak", cat: "fiil" },
+{ fr: "un lecteur", tr: "bir okuyucu", cat: "kişi" },
+{ fr: "un livre", tr: "bir kitap", cat: "nesne" },
+{ fr: "un menteur", tr: "bir yalancı", cat: "kişi" },
+{ fr: "mâcher", tr: "çiğnemek", cat: "fiil" },
+{ fr: "une mâchoire", tr: "bir çene", cat: "vucut" },
+{ fr: "un mouton", tr: "bir koyun", cat: "hayvan" },
+{ fr: "une machine", tr: "bir makine", cat: "eşya" },
+{ fr: "magnifique", tr: "muhteşem", cat: "sıfat" },
+{ fr: "observer", tr: "gözlemlemek", cat: "fiil" },
+{ fr: "un objet", tr: "bir nesne", cat: "nesne" },
+{ fr: "un objectif", tr: "bir hedef", cat: "soyut" },
+{ fr: "une obligation", tr: "bir zorunluluk", cat: "soyut" },
+{ fr: "participer", tr: "katılmak", cat: "fiil" },
+{ fr: "planifier", tr: "planlamak", cat: "fiil" },
+{ fr: "payer", tr: "ödemek", cat: "fiil" },
+{ fr: "pouvoir", tr: "-ebilmek / gücü olmak", cat: "fiil" },
+{ fr: "pleurer", tr: "ağlamak", cat: "fiil" },
+{ fr: "penser", tr: "düşünmek", cat: "fiil" },
+{ fr: "une page", tr: "bir sayfa", cat: "nesne" },
+{ fr: "une question", tr: "bir soru", cat: "soyut" },
+{ fr: "questionner", tr: "sorgulamak", cat: "fiil" },
+{ fr: "qui ?", tr: "kim?", cat: "soru" },
+{ fr: "quoi ?", tr: "ne?", cat: "soru" },
+{ fr: "quand ?", tr: "ne zaman?", cat: "soru" },
+{ fr: "raconter", tr: "anlatmak", cat: "fiil" },
+{ fr: "raccourcir", tr: "kısaltmak", cat: "fiil" },
+{ fr: "ralentir", tr: "yavaşlamak", cat: "fiil" },
+{ fr: "le racisme", tr: "ırkçılık", cat: "soyut" },
+{ fr: "le sable", tr: "kum", cat: "nesne" },
+{ fr: "un sac", tr: "bir çanta", cat: "eşya" },
+{ fr: "la santé", tr: "sağlık", cat: "soyut" },
+{ fr: "le sang", tr: "kan", cat: "vucut" },
+{ fr: "une soupe", tr: "bir çorba", cat: "yiyecek" },
+{ fr: "une tache", tr: "bir leke", cat: "nesne" },
+{ fr: "une taupe", tr: "bir yersıçanı", cat: "hayvan" },
+{ fr: "une table", tr: "bir masa", cat: "eşya" },
+{ fr: "un test", tr: "bir test", cat: "nesne" },
+{ fr: "urgent", tr: "acil", cat: "sıfat" },
+{ fr: "une usine", tr: "bir fabrika", cat: "yer" },
+{ fr: "un uniforme", tr: "bir üniforma", cat: "eşya" },
+{ fr: "un univers", tr: "bir evren", cat: "soyut" },
+{ fr: "varier", tr: "değişmek", cat: "fiil" },
+{ fr: "vaste", tr: "geniş", cat: "sıfat" },
+{ fr: "venir", tr: "gelmek", cat: "fiil" },
+{ fr: "vendre", tr: "satmak", cat: "fiil" },
+{ fr: "une vente", tr: "bir satış", cat: "soyut" },
+{ fr: "venin", tr: "zehir", cat: "nesne" },
+{ fr: "le vent", tr: "rüzgar", cat: "nesne" },
+{ fr: "un wagon", tr: "bir vagon", cat: "eşya" },
+{ fr: "un clown", tr: "bir palyaço", cat: "kişi" },
+{ fr: "un xylophone", tr: "bir ksilofon", cat: "nesne" },
+{ fr: "un prix", tr: "bir ödül", cat: "soyut" },
+{ fr: "un yaourt", tr: "bir yoğurt", cat: "yiyecek" },
+{ fr: "une zoo", tr: "bir hayvanat bahçesi", cat: "yer" },
+{ fr: "un zèbre", tr: "bir zebra", cat: "hayvan" },
+{ fr: "zaper", tr: "kanal değiştirmek", cat: "fiil" },
+{ fr: "amical", tr: "arkadaşça", cat: "sıfat" },
+{ fr: "anesthésie", tr: "anestezi", cat: "soyut" },
+{ fr: "un ami", tr: "bir arkadaş", cat: "kişi" },
+{ fr: "à voix basse", tr: "alçak sesle", cat: "zarf" },
+{ fr: "une annonce", tr: "bir ilan", cat: "nesne" },
+{ fr: "attendre", tr: "beklemek", cat: "fiil" },
+{ fr: "appeler", tr: "aramak, çağırmak", cat: "fiil" },
+{ fr: "un avocat", tr: "bir avukat", cat: "kişi" },
+{ fr: "zéro", tr: "sıfır", cat: "sayi" },
+{ fr: "un", tr: "bir", cat: "sayi" },
+{ fr: "deux", tr: "iki", cat: "sayi" },
+{ fr: "trois", tr: "üç", cat: "sayi" },
+{ fr: "quatre", tr: "dört", cat: "sayi" },
+{ fr: "cinq", tr: "beş", cat: "sayi" },
+{ fr: "six", tr: "altı", cat: "sayi" },
+{ fr: "sept", tr: "yedi", cat: "sayi" },
+{ fr: "huit", tr: "sekiz", cat: "sayi" },
+{ fr: "neuf", tr: "dokuz", cat: "sayi" },
+{ fr: "dix", tr: "on", cat: "sayi" },
+{ fr: "onze", tr: "on bir", cat: "sayi" },
+{ fr: "douze", tr: "on iki", cat: "sayi" },
+{ fr: "treize", tr: "on üç", cat: "sayi" },
+{ fr: "quatorze", tr: "on dört", cat: "sayi" },
+{ fr: "quinze", tr: "on beş", cat: "sayi" },
+{ fr: "seize", tr: "on altı", cat: "sayi" },
+{ fr: "dix-sept", tr: "on yedi", cat: "sayi" },
+{ fr: "dix-huit", tr: "on sekiz", cat: "sayi" },
+{ fr: "dix-neuf", tr: "on dokuz", cat: "sayi" },
+{ fr: "vingt", tr: "yirmi", cat: "sayi" },
+{ fr: "trente", tr: "otuz", cat: "sayi" },
+{ fr: "quarante", tr: "kırk", cat: "sayi" },
+{ fr: "cinquante", tr: "elli", cat: "sayi" },
+{ fr: "soixante", tr: "altmış", cat: "sayi" },
+{ fr: "soixante-dix", tr: "yetmiş", cat: "sayi" },
+{ fr: "quatre-vingt", tr: "seksen", cat: "sayi" },
+{ fr: "quatre-vingt-dix", tr: "doksan", cat: "sayi" },
+{ fr: "cent", tr: "yüz", cat: "sayi" }
+
+
+
+
+
+
+];
+
+let currentWord = {};
+
+function onCategoryChange() {
+  const selectedCategory = document.getElementById("categorySelect").value;
+  const filtered = selectedCategory ? words.filter(w => w.cat === selectedCategory) : words;
+
+  // Sadece sayı yaz
+  document.getElementById("wordCountDisplay").textContent = filtered.length;
+
+  // Yeni soru gelsin
+  newQuestion();
+
+  // Buton görünür olsun
+  document.getElementById("newQuestionBtn").style.display = "inline-block";
+}
+
+
+
+
+function getFilteredWords() {
+  const selectedCategory = document.getElementById("categorySelect").value;
+  return words.filter(w => w.cat === selectedCategory);
+}
+
+function newQuestion() {
+  const wordList = getFilteredWords();
+  currentWord = wordList[Math.floor(Math.random() * wordList.length)];
+  document.getElementById("frWord").textContent = currentWord.fr;
+  playPronunciation(currentWord.fr);
+
+  let options = [currentWord.tr];
+  while (options.length < 3) {
+    let rand = wordList[Math.floor(Math.random() * wordList.length)].tr;
+    if (!options.includes(rand)) {
+      options.push(rand);
+    }
+  }
+  options.sort(() => Math.random() - 0.5);
+
+  const optionsDiv = document.getElementById("options");
+  optionsDiv.innerHTML = "";
+  options.forEach(opt => {
+    const btn = document.createElement("div");
+    btn.className = "option";
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(btn, opt);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(btn, selected) {
+  const all = document.querySelectorAll(".option");
+  all.forEach(opt => {
+    opt.classList.add("disabled");
+    if (opt.textContent === currentWord.tr) {
+      opt.classList.add("correct");
+    }
+  });
+
+  if (selected === currentWord.tr) {
+    document.getElementById("correctSound").play();
+  } else {
+    btn.classList.add("wrong");
+    document.getElementById("wrongSound").play();
+  }
+}
+
+function playPronunciation(text) {
+  const audio = document.getElementById("pronounceAudio");
+  audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodeURIComponent(text)}&tl=fr&client=tw-ob`;
+  audio.play();
+}
+</script>
+</body>
+</html>
